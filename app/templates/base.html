@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" />
+    <title>{% block title %}Управление базой студентов{% endblock %}</title>
+    {% block script %}{% endblock %}
+</head>
+
+<body>{% block body %}
+{% block scriptbody %}{% endblock scriptbody %}
+    <div class = "row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-right">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="#">Управление базой студентов</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('group.groups_list') }}">Список групп</a></li>
+                    {% block add_links %}{% endblock add_links %}
+                  </ul>
+                  {% block loginout %}
+                  {% if session.logged_in %}
+                  <p class="navbar-text navbar-right">Пользователь: {{ user }} <a class="navbar-link" href="{{ url_for('logout') }}">Выход</a></p>
+                  {% else %}
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a class="navbar-link" href="{{ url_for('group.login') }}">Вход</a></li>
+                  </ul>
+                  {% endif %}
+                  {% endblock loginout %}
+                </div>
+              </div>
+            </nav>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class = "row">
+        <div class="col-md-12">
+            <header>
+            <h1 class="text-center">{% block header %}Управление базой студентов{% endblock %}</h1>
+            </header>
+        </div>
+    </div>
+    <div class = "row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div id="content">
+            {% block content %}{% endblock %}
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+{% endblock body %}
+</body>
+</html>

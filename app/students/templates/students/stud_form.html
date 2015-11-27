@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block header %}{% if stud %}Студент {{ stud.name }}{% else %}Создание нового студента{% endif %}{% endblock %}
+
+{% block add_links %}<li><a href="{{ url_for('group.studs_list', group_id=group_id) }}">Список студентов</a></li>{% endblock %}
+
+{% block content %}
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form class="form-horizontal" action="." method="post">
+            {{ form.csrf_token }}
+            {% for field in form %}
+              <div class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label(class="control-label") }}
+                {{ field(class="form-control") }}
+                {% if field.errors %}
+                  <ul class="list-unstyled">
+                  {% for error in field.errors %}
+                    <li class="text-danger">{{ error|e }}</li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <div class="col-sm-2">
+                <input type="submit" value="Сохранить" class="btn btn-primary">
+            </div>
+        </form>
+        {% if stud %}
+        <form class="col-sm-2" action="{{ url_for('stud.stud_delete', stud_id=stud.id, group_id=stud.cgroup.id) }}" method="post">
+            {{ form.csrf_token }}
+            <input type="submit" class="btn btn-default" onclick="return confirm('Удалить студента {{ stud.name }}?')"  value="Удалить студента">
+        </form>
+        {% endif %}
+{% endblock content %}
+

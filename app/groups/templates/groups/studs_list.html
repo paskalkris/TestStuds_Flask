@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block header %}Список студентов группы {{ group.name }}{% endblock %}
+
+{% block content %}
+{% if group.stud_set.count() > 0  %}
+        <table class="table table-striped" id="studs">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО</th>
+                    <th>Дата рождения</th>
+                    <th>№ студ-билета</th>
+                    <th class="text-center">Cтароста</th>
+                <tr>
+            </thead>
+            <tbody class="table_body">
+            {% for stud in group.stud_set %}
+                <tr>
+                    <td>{{ stud.id }}</td>
+                    <td><a href="{{ url_for('stud.stud_edit', stud_id=stud.id, group_id=group.id)  }}">{{ stud.name }}</a></td>
+                    <td>{{ stud.dbirthday }}</td>
+                    <td>{{ stud.nstud }}</td>
+                    <td class="text-center"><input type="checkbox" disabled {% if stud == group.starosta %}checked{% endif %}></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <p class="text-right"><strong>Всего студентов: {{ group.stud_set.count() }}</strong></p>
+{% else %}
+    <p class="text-center text-warning">No students are avaliable</p>
+{% endif %}
+{% block another %}
+        <form method="LINK" action="{{ url_for('stud.stud_create', group_id=group.id) }}" class="text-right">
+            <input type="submit" value="Создать" class="btn btn-default">
+        </form>
+{% endblock another %}
+{% endblock content %}

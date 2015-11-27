@@ -1,0 +1,9 @@
+{% extends "groups/studs_list.html" %}
+
+{% block header %}В группе {{ group.name }}, которую Вы хотите удалить, обучаются студенты{% endblock %}
+
+{% block another %}
+        <form method="post" action="{{ url_for('group.group_delete', group_id=group.id) }}" class="text-right">
+            <input type="submit" value="Все равно удалить эту группу" class="btn btn-default">
+        </form>
+{% endblock another %}
