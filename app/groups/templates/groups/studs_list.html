@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ stud.id }}</td>
                     <td><a href="{{ url_for('stud.stud_edit', stud_id=stud.id, group_id=group.id)  }}">{{ stud.name }}</a></td>
-                    <td>{{ stud.dbirthday }}</td>
+                    <td>{{ stud.dbirthday.strftime('%d.%m.%Y') }}</td>
                     <td>{{ stud.nstud }}</td>
                     <td class="text-center"><input type="checkbox" disabled {% if stud == group.starosta %}checked{% endif %}></td>
                 </tr>

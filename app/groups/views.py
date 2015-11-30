@@ -3,6 +3,7 @@ from flask import g, Blueprint
 from flask import render_template, redirect, url_for, request
 
 from app.universal import get_object_or_404
+from app.accounts.session import login_required
 from app.students.models import Stud
 from .models import Group
 
@@ -22,6 +23,7 @@ def studs_list(group_id):
     return render_template(template_name, group=group)
 
 @bp.route('/create/', methods=['GET', 'POST'])
+@login_required
 def group_create():
     GroupForm = model_form(Group)
     group = Group()
@@ -36,6 +38,7 @@ def group_create():
     return render_template('groups/group_form.html', form=form)
 
 @bp.route('/<group_id>/edit/', methods=['GET', 'POST'])
+@login_required
 def group_edit(group_id):
     GroupForm = model_form(Group)
     group = get_object_or_404(Group, Group.id == group_id)
@@ -51,6 +54,7 @@ def group_edit(group_id):
     return render_template('groups/group_form.html', form=form, group=group)
 
 @bp.route('/<group_id>/delete/', methods=['POST'])
+@login_required
 def group_delete(group_id):
     group = get_object_or_404(Group, Group.id == group_id)
     try:
@@ -60,12 +64,9 @@ def group_delete(group_id):
         return redirect(url_for('group.group_edit', group_id=group_id))
 
 @bp.route('/<group_id>/confirm_delete', methods=['POST'])
+@login_required
 def confirm_delete(group_id):
     group = get_object_or_404(Group, Group.id == group_id)
     template_name = 'groups/confirm_delete.html'
     return render_template(template_name, group=group)
 
-
-@bp.route('/login')
-def login():
-    pass

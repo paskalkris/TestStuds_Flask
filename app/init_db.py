@@ -1,6 +1,9 @@
 from peewee import SqliteDatabase, Model
 from flask import current_app as app
 
+class SqliteFKDatabase(SqliteDatabase):
+    def initialize_connection(self, conn):
+       self.execute_sql('PRAGMA foreign_keys=ON;')
 
 class DataBase():
     def __init__ (self):
@@ -8,7 +11,7 @@ class DataBase():
         self.model = None
 
     def init_db(self, app):
-        self.db = SqliteDatabase(app.config['DATABASE'])
+        self.db = SqliteFKDatabase(app.config['DATABASE'])
         self.Model = self.get_model_class()
 
         @app.before_request

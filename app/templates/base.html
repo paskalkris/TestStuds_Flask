@@ -23,10 +23,10 @@
                   </ul>
                   {% block loginout %}
                   {% if session.logged_in %}
-                  <p class="navbar-text navbar-right">Пользователь: {{ user }} <a class="navbar-link" href="{{ url_for('logout') }}">Выход</a></p>
+                  <p class="navbar-text navbar-right">Пользователь: {{ session.username }} <a class="navbar-link" href="{{ url_for('acc.logout') }}">Выход</a></p>
                   {% else %}
                   <ul class="nav navbar-nav navbar-right">
-                    <li><a class="navbar-link" href="{{ url_for('group.login') }}">Вход</a></li>
+                    <li><a class="navbar-link" href="{{ url_for('acc.login') }}">Вход</a></li>
                   </ul>
                   {% endif %}
                   {% endblock loginout %}
